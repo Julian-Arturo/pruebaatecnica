@@ -4,9 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:prueba_tecnica/data/services/firebase_auth.dart';
-import 'package:prueba_tecnica/domain/Models/facebook%20copy.dart';
+import 'package:prueba_tecnica/domain/Models/google_SignIn.dart';
 import 'package:prueba_tecnica/domain/Models/facebook.dart';
-import 'package:prueba_tecnica/domain/Models/google.dart';
+
 import 'package:prueba_tecnica/domain/Models/widget/custom_textfield.dart';
 import 'package:prueba_tecnica/ui/widget/button.dart';
 import 'package:prueba_tecnica/ui/widget/line_pass.dart';
