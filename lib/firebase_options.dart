@@ -28,7 +28,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -56,18 +59,6 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDpV_0dhhApxrX2f90U-e6Y-PEut3xJdcc',
-    appId: '1:1017626261470:ios:4234b92e921f973169cf4f',
-    messagingSenderId: '1017626261470',
-    projectId: 'digitalexppb',
-    databaseURL: 'https://digitalexppb-default-rtdb.firebaseio.com',
-    storageBucket: 'digitalexppb.appspot.com',
-    androidClientId: '1017626261470-0jfg6p35ihru51avfei3rl2br6fh6q9h.apps.googleusercontent.com',
-    iosClientId: '1017626261470-vd0krqssuqqrho9i9ive59lq7l0ffq7f.apps.googleusercontent.com',
-    iosBundleId: 'com.example.pruebaTecnica',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyDpV_0dhhApxrX2f90U-e6Y-PEut3xJdcc',
     appId: '1:1017626261470:ios:4234b92e921f973169cf4f',
     messagingSenderId: '1017626261470',

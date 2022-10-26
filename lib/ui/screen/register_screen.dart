@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prueba_tecnica/domain/Models/formRegister.dart';
+import 'package:prueba_tecnica/ui/widget/formRegister.dart';
 import 'package:prueba_tecnica/ui/widget/background.dart';
 import 'package:prueba_tecnica/ui/widget/line_pass.dart';
 

@@ -38,6 +38,13 @@
             {
               "client_id": "1017626261470-pvj7ev6ct4gs7a418nm0n3i30775k2gp.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1017626261470-vd0krqssuqqrho9i9ive59lq7l0ffq7f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.pruebaTecnica"
+              }
             }
           ]
         }
@@ -67,6 +74,13 @@
             {
               "client_id": "1017626261470-pvj7ev6ct4gs7a418nm0n3i30775k2gp.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1017626261470-vd0krqssuqqrho9i9ive59lq7l0ffq7f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.pruebaTecnica"
+              }
             }
           ]
         }

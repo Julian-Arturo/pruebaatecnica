@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:prueba_tecnica/core/utils/showSnackBar.dart';
+import 'package:prueba_tecnica/data/services/services_location.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -12,11 +15,29 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   late GoogleMapController googleMapController;
-  TextEditingController _searchController = TextEditingController();
-  static const CameraPosition initialCameraPosition = CameraPosition(
-      target: LatLng(37.42796133580664, -122.085749655962), zoom: 14);
+  TextEditingController searchController = TextEditingController();
+  CameraPosition cameraPosition = const CameraPosition(
+      target: LatLng(37.42796133580664, -122.085749655962), zoom: 50);
 
   Set<Marker> markers = {};
+
+  Future<void> _getLocation() async {
+    Location? placeLocation = await ServicesLocation.getLocation(
+        context: context, text: searchController.text);
+
+    if (placeLocation != null) {
+      cameraPosition = CameraPosition(
+          target: LatLng(placeLocation.latitude, placeLocation.longitude),
+          zoom: 14);
+      googleMapController
+          .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+      markers.clear();
+      markers.add(Marker(
+          markerId: const MarkerId('Ubicación lugar'),
+          position: LatLng(placeLocation.latitude, placeLocation.longitude)));
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,35 +54,49 @@ class _MapScreenState extends State<MapScreen> {
             backgroundColor: Colors.cyan),
 
         //Todo: Agregar Google Maps
-        body: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                    child: TextFormField(
-                  controller: _searchController,
-                  textCapitalization: TextCapitalization.words,
-                  decoration:
-                      const InputDecoration(hintText: 'Buscar ubicación'),
-                  onChanged: ((value) {
-                    // ignore: avoid_print
-                    print(value);
-                  }),
-                )),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.search))
-              ],
-            ),
-            Expanded(
-              child: GoogleMap(
-                initialCameraPosition: initialCameraPosition,
-                markers: markers,
-                mapType: MapType.hybrid,
-                onMapCreated: (GoogleMapController controller) {
-                  googleMapController = controller;
-                },
+        body: GestureDetector(
+          onTap: () {
+            final FocusScopeNode focus = FocusScope.of(context);
+            if (!focus.hasPrimaryFocus && focus.hasFocus) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            }
+          },
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                      child: TextFormField(
+                    controller: searchController,
+                    textCapitalization: TextCapitalization.words,
+                    decoration:
+                        const InputDecoration(hintText: 'Buscar ubicación'),
+                  )),
+                  IconButton(
+                      onPressed: () async {
+                        FocusScope.of(context).unfocus();
+                        if (searchController.text.isEmpty) {
+                          showSnackBar(
+                              context, "El campo no pueda estar vacio");
+                        } else {
+                          await _getLocation();
+                        }
+                      },
+                      icon: const Icon(Icons.search))
+                ],
               ),
-            ),
-          ],
+              Expanded(
+                child: GoogleMap(
+                  initialCameraPosition: cameraPosition,
+                  markers: markers,
+                  mapType: MapType.hybrid,
+                  onMapCreated: (GoogleMapController controller) {
+                    googleMapController = controller;
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
         floatingActionButton: SizedBox(
           height: 125,

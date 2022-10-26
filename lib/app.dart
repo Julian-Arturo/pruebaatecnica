@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:prueba_tecnica/domain/Models/wrapper.dart';
+import 'package:prueba_tecnica/ui/screen/wrapper.dart';
 
 import 'ui/screen/screens.dart';
 
@@ -19,11 +18,11 @@ class _AppState extends State<App> with SingleTickerProviderStateMixin {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Prueba Tecnica',
-      initialRoute: 'wrapper',
+      initialRoute: 'mapa',
       routes: {
         'wrapper': (_) => Wrapper(),
         'splash': (_) => const SplashScreen(),
-        'mapa': (_) => MapScreen(),
+        'mapa': (_) => const MapScreen(),
         'register': (_) => RegiterScreen(),
         'login': (_) => LoginScreen()
       },

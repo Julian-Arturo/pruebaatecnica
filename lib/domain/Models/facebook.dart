@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prueba_tecnica/domain/Models/widget/social_buttons.dart';
+import 'package:prueba_tecnica/ui/widget/social_buttons.dart';
 
 class FacebookSignIn extends StatelessWidget {
   const FacebookSignIn({Key? key}) : super(key: key);

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:prueba_tecnica/domain/Models/formLogin.dart';
+import 'package:prueba_tecnica/core/utils/ui_utils.dart';
+import 'package:prueba_tecnica/ui/widget/formLogin.dart';
 import 'package:prueba_tecnica/ui/widget/background.dart';
 import 'package:prueba_tecnica/ui/widget/line_pass.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    UiUtils _utils = UiUtils();
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -20,8 +22,8 @@ class LoginScreen extends StatelessWidget {
             SingleChildScrollView(
               child: Column(
                 children: [
-                  const SizedBox(
-                    height: 100,
+                  SizedBox(
+                    height: _utils.screenSize.height * 0.2,
                   ),
                   const Center(child: EmailAndPasswordLogin()),
                   Column(
