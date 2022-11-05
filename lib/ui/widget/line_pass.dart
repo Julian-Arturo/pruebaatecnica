@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:prueba_tecnica/ui/screen/change_password_screen.dart';
 import 'package:prueba_tecnica/ui/screen/screens.dart';
 import 'package:prueba_tecnica/ui/widget/button.dart';
 
 class Line extends StatelessWidget {
   final String text;
+
   const Line({Key? key, required this.text}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class Line extends StatelessWidget {
           ),
           Text(
             text,
-            style: TextStyle(color: Colors.black, fontSize: 12),
+            style: const TextStyle(color: Colors.black, fontSize: 12),
           ),
           const SizedBox(
             width: 20,
@@ -38,20 +40,28 @@ class Line extends StatelessWidget {
 
 class ForgotPasssword extends StatelessWidget {
   const ForgotPasssword({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-            padding: const EdgeInsets.only(
-              top: 10,
-            ),
-            child: const Text(
-              'Olvidaste tu contraseña?',
-              style: TextStyle(fontSize: 10),
-            )),
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      const ChangePasswordScreen()),
+            );
+          },
+          child: Container(
+              padding: const EdgeInsets.only(
+                top: 10,
+              ),
+              child: const Text(
+                'Olvidaste tu contraseña?',
+                style: TextStyle(fontSize: 12),
+              )),
+        ),
       ],
     );
   }
@@ -68,13 +78,13 @@ class RedirectiontoRegister extends StatelessWidget {
       children: [
         const Text(
           "¿No tienes aún cuenta?",
-          style: TextStyle(color: Colors.white, fontSize: 12),
+          style: TextStyle(color: Colors.white, fontSize: 15),
         ),
         BtnRedirection(
             text: 'Registarte aquí',
             onpressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => RegiterScreen()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => const RegiterScreen()));
             })
       ],
     );
@@ -91,13 +101,13 @@ class RedirectiontoLogin extends StatelessWidget {
       children: [
         const Text(
           "¿Ya tienes cuenta?",
-          style: TextStyle(color: Colors.white, fontSize: 12),
+          style: TextStyle(color: Colors.white, fontSize: 15),
         ),
         BtnRedirection(
             text: 'Ingresa Aquí',
             onpressed: () {
-              Navigator.pop(
-                  context, MaterialPageRoute(builder: (_) => LoginScreen()));
+              Navigator.pop(context,
+                  MaterialPageRoute(builder: (_) => const LoginScreen()));
             })
       ],
     );

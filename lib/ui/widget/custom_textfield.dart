@@ -5,6 +5,7 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final double sizeW;
   final double? sizeH;
+  final IconButton? icon;
 
   const CustomTextField({
     Key? key,
@@ -12,16 +13,18 @@ class CustomTextField extends StatelessWidget {
     required this.hintText,
     required this.sizeW,
     this.sizeH,
+    this.icon,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: sizeW,
       height: sizeH,
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
+          suffixIcon: icon,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
             borderSide: const BorderSide(color: Colors.transparent, width: 0),

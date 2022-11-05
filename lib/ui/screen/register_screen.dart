@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:prueba_tecnica/ui/widget/formRegister.dart';
-import 'package:prueba_tecnica/ui/widget/background.dart';
-import 'package:prueba_tecnica/ui/widget/line_pass.dart';
+import 'package:prueba_tecnica/ui/widget/widgets.dart';
 
 class RegiterScreen extends StatelessWidget {
+  const RegiterScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +15,7 @@ class RegiterScreen extends StatelessWidget {
           }
         },
         child: Stack(children: [
-          const Background(),
+          const BackgroundF(),
           ListView(children: [
             const SizedBox(
               height: 100,
@@ -26,7 +26,7 @@ class RegiterScreen extends StatelessWidget {
               children: [
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Container(
-                      padding: const EdgeInsets.only(bottom: 30),
+                      padding: const EdgeInsets.only(top: 50, bottom: 30),
                       child: const RedirectiontoLogin())
                 ]),
               ],

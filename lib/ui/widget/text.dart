@@ -45,7 +45,7 @@ class TextScrenRegister extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      padding: const EdgeInsets.only(top: 30, bottom: 5),
       child: const Text(
         'Registarte',
         textAlign: TextAlign.center,

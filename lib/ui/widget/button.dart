@@ -1,6 +1,3 @@
-// ignore_for_file: sort_child_properties_last, prefer_const_constructors
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ButtonsStyle extends StatelessWidget {
@@ -28,16 +25,16 @@ class ButtonsStyle extends StatelessWidget {
         height: sizeH,
         child: ElevatedButton(
             onPressed: onPressed,
-            child: Text(
-              text,
-              style: TextStyle(fontSize: 18),
-            ),
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(backgroundColor),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30.0),
               )),
+            ),
+            child: Text(
+              text,
+              style: const TextStyle(fontSize: 18),
             )));
   }
 }
@@ -58,7 +55,7 @@ class BtnRedirection extends StatelessWidget {
         onPressed: onpressed,
         child: Text(
           text,
-          style: const TextStyle(color: Colors.blue, fontSize: 12),
+          style: const TextStyle(color: Colors.blue, fontSize: 15),
         ));
   }
 }

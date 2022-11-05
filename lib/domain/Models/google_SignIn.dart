@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:prueba_tecnica/core/utils/utils.dart';
 import 'package:prueba_tecnica/data/services/firebase_services.dart';
+import 'package:prueba_tecnica/ui/widget/loading.dart';
 import 'package:prueba_tecnica/ui/widget/social_buttons.dart';
 
 class GoogleSinIn1 extends StatelessWidget {
@@ -10,11 +12,13 @@ class GoogleSinIn1 extends StatelessWidget {
     return Row(
       children: [
         SocialBoton(
-          onPressed: () {
-            FirebaseServices.googleSignIn.signIn();
+          onPressed: () async {
+            await FirebaseServices.signInWithGoogle(context);
+            Loading.loadingCircle(context: context);
+            Navigator.of(context).pop();
           },
           color: Colors.white,
-          image: const Image(image: AssetImage("assets/images/google.png")),
+          image: Image(image: AssetImage("assets/images/google.png")),
         ),
         const SizedBox(width: 28),
       ],

@@ -3,13 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prueba_tecnica/core/utils/showSnackBar.dart';
-import 'package:prueba_tecnica/data/services/services_location.dart';
+import 'package:prueba_tecnica/core/utils/utils.dart';
+import 'package:prueba_tecnica/data/services/services.dart';
+import 'package:prueba_tecnica/ui/screen/screens.dart';
+import 'package:prueba_tecnica/ui/widget/loading.dart';
+import 'package:prueba_tecnica/ui/widget/widgets.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _MapScreenState createState() => _MapScreenState();
 }
 
@@ -17,11 +21,13 @@ class _MapScreenState extends State<MapScreen> {
   late GoogleMapController googleMapController;
   TextEditingController searchController = TextEditingController();
   CameraPosition cameraPosition = const CameraPosition(
-      target: LatLng(37.42796133580664, -122.085749655962), zoom: 50);
+      target: LatLng(37.42796133580664, -122.085749655962), zoom: 10);
 
   Set<Marker> markers = {};
 
   Future<void> _getLocation() async {
+    //Loading circle
+    Loading.loadingCircle(context: context);
     Location? placeLocation = await ServicesLocation.getLocation(
         context: context, text: searchController.text);
 
@@ -37,16 +43,34 @@ class _MapScreenState extends State<MapScreen> {
           position: LatLng(placeLocation.latitude, placeLocation.longitude)));
       setState(() {});
     }
+    Navigator.of(context).pop();
   }
+
+  UiUtils utils = UiUtils();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+            leading: Builder(builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.search),
+                onPressed: () {
+                  showModal(context);
+                },
+              );
+            }),
             actions: [
               //todo: Cerrar sesion
               IconButton(
-                onPressed: () => FirebaseAuth.instance.signOut(),
+                onPressed: () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const SplashScreen()),
+                      (route) => false);
+                  FirebaseAuth.instance.signOut();
+                },
                 icon: const Icon(Icons.output_sharp),
               )
             ],
@@ -63,28 +87,6 @@ class _MapScreenState extends State<MapScreen> {
           },
           child: Column(
             children: [
-              Row(
-                children: [
-                  Expanded(
-                      child: TextFormField(
-                    controller: searchController,
-                    textCapitalization: TextCapitalization.words,
-                    decoration:
-                        const InputDecoration(hintText: 'Buscar ubicación'),
-                  )),
-                  IconButton(
-                      onPressed: () async {
-                        FocusScope.of(context).unfocus();
-                        if (searchController.text.isEmpty) {
-                          showSnackBar(
-                              context, "El campo no pueda estar vacio");
-                        } else {
-                          await _getLocation();
-                        }
-                      },
-                      icon: const Icon(Icons.search))
-                ],
-              ),
               Expanded(
                 child: GoogleMap(
                   initialCameraPosition: cameraPosition,
@@ -103,20 +105,22 @@ class _MapScreenState extends State<MapScreen> {
           child: FloatingActionButton(
             child: const Icon(Icons.location_history_rounded),
             onPressed: () async {
-              Position position = await _determinePosition();
+              Position? position =
+                  await ServicesLocation.determinePosition(context);
+              if (position != null) {
+                googleMapController.animateCamera(
+                    CameraUpdate.newCameraPosition(CameraPosition(
+                        target: LatLng(position.latitude, position.longitude),
+                        zoom: 14)));
 
-              googleMapController.animateCamera(CameraUpdate.newCameraPosition(
-                  CameraPosition(
-                      target: LatLng(position.latitude, position.longitude),
-                      zoom: 14)));
+                markers.clear();
 
-              markers.clear();
+                markers.add(Marker(
+                    markerId: const MarkerId('Ubicación Actual'),
+                    position: LatLng(position.latitude, position.longitude)));
 
-              markers.add(Marker(
-                  markerId: const MarkerId('Ubicación Actual'),
-                  position: LatLng(position.latitude, position.longitude)));
-
-              setState(() {});
+                setState(() {});
+              }
             },
           ),
         ),
@@ -124,33 +128,34 @@ class _MapScreenState extends State<MapScreen> {
             FloatingActionButtonLocation.centerDocked);
   }
 
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
+  ///Ventana de alerta
+  void showModal(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Center(child: Text('Search Earth')),
+        actionsAlignment: MainAxisAlignment.start,
+        content: CustomTextField(
+          controller: searchController,
+          hintText: 'Buscar Ubicación',
+          sizeW: utils.screenSize.width * 0.5,
+          icon: IconButton(
+              onPressed: () async {
+                FocusScope.of(context).unfocus();
+                if (searchController.text.isEmpty) {
+                  showSnackBar(context, "El campo no pueda estar vacio");
+                } else {
+                  await _getLocation();
+                  Navigator.pop(context);
+                }
 
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-
-    if (!serviceEnabled) {
-      return Future.error('Los servicios de ubicación están deshabilitados');
-    }
-
-    permission = await Geolocator.checkPermission();
-
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-
-      if (permission == LocationPermission.denied) {
-        return Future.error("Permiso de ubicación denegado");
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Los permisos de ubicación están denegados permanentemente');
-    }
-
-    Position position = await Geolocator.getCurrentPosition();
-
-    return position;
+                setState(() {
+                  searchController.clear();
+                });
+              },
+              icon: Icon(Icons.search)),
+        ),
+      ),
+    );
   }
 }

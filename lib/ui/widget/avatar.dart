@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class Avatar extends StatelessWidget {
   const Avatar({Key? key}) : super(key: key);
@@ -8,7 +6,7 @@ class Avatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 150),
+      padding: const EdgeInsets.only(top: 150),
       child: const CircleAvatar(
         backgroundColor: Colors.white,
         radius: 100,
@@ -23,7 +21,7 @@ class FondoAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 150, right: 6),
+      padding: const EdgeInsets.only(top: 150, right: 6),
       child: Container(
         width: 225,
         height: 225,

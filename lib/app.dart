@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:prueba_tecnica/ui/screen/wrapper.dart';
-
 import 'ui/screen/screens.dart';
 
 class App extends StatefulWidget {
@@ -18,13 +17,13 @@ class _AppState extends State<App> with SingleTickerProviderStateMixin {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Prueba Tecnica',
-      initialRoute: 'mapa',
+      initialRoute: 'wrapper',
       routes: {
-        'wrapper': (_) => Wrapper(),
-        'splash': (_) => const SplashScreen(),
-        'mapa': (_) => const MapScreen(),
-        'register': (_) => RegiterScreen(),
-        'login': (_) => LoginScreen()
+        'wrapper' : (BuildContext context) => const Wrapper(),
+        'splash'  : (BuildContext context) => const SplashScreen(),
+        'mapa'    : (BuildContext context) => const MapScreen(),
+        'register': (BuildContext context) => const RegiterScreen(),
+        'login'   : (BuildContext context) => const LoginScreen()
       },
       theme: ThemeData(fontFamily: 'KulimPark'),
     );

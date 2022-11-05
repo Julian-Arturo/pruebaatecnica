@@ -1,13 +1,13 @@
-// ignore_for_file: file_names
 import 'package:flutter/material.dart';
 import 'package:prueba_tecnica/core/utils/ui_utils.dart';
 import 'package:prueba_tecnica/data/services/firebase_services.dart';
+import 'package:prueba_tecnica/data/services/services.dart';
 import 'package:prueba_tecnica/domain/Models/google_SignIn.dart';
 import 'package:prueba_tecnica/domain/Models/facebook.dart';
-import 'package:prueba_tecnica/ui/screen/map_screen.dart';
 import 'package:prueba_tecnica/ui/widget/custom_textfield.dart';
 import 'package:prueba_tecnica/ui/widget/button.dart';
 import 'package:prueba_tecnica/ui/widget/line_pass.dart';
+import 'package:prueba_tecnica/ui/widget/loading.dart';
 import 'package:prueba_tecnica/ui/widget/text.dart';
 
 class FormFieldReg extends StatefulWidget {
@@ -32,23 +32,29 @@ class _FormFieldRegState extends State<FormFieldReg> {
     nameController.dispose();
   }
 
+  void emailVerification() async {
+    FirebaseServices.sendEmailVerification(context);
+  }
+
   void signUpUser() async {
+    Loading.loadingCircle(context: context);
     FirebaseServices.signUpWhitEmail(
-      last_name: last_nameController.text,
+      lastName: last_nameController.text,
       name: nameController.text,
       email: emailController.text,
       password: passwordController.text,
       context: context,
     );
+    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
-    UiUtils _utils = UiUtils();
+    UiUtils utils = UiUtils();
     return Center(
       child: Container(
         padding: const EdgeInsets.all(10),
-        width: _utils.screenSize.width * 0.8,
+        width: utils.screenSize.width * 0.8,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(40),
             color: const Color(0xffD9D9D9)),
@@ -56,11 +62,11 @@ class _FormFieldRegState extends State<FormFieldReg> {
             // ignore: prefer_const_literals_to_create_immutables
             children: [
               const TextScrenRegister(),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+              SizedBox(height: utils.screenSize.height * 0.04),
               CustomTextField(
                 controller: nameController,
                 hintText: 'Nombre',
-                sizeW: 250,
+                sizeW: utils.screenSize.width * 0.65,
               ),
               const SizedBox(
                 height: 20,
@@ -68,7 +74,7 @@ class _FormFieldRegState extends State<FormFieldReg> {
               CustomTextField(
                 controller: last_nameController,
                 hintText: 'Apellido',
-                sizeW: 250,
+                sizeW: utils.screenSize.width * 0.65,
               ),
               const SizedBox(
                 height: 20,
@@ -76,7 +82,7 @@ class _FormFieldRegState extends State<FormFieldReg> {
               CustomTextField(
                 controller: emailController,
                 hintText: 'Correo',
-                sizeW: 250,
+                sizeW: utils.screenSize.width * 0.65,
               ),
               const SizedBox(
                 height: 20,
@@ -84,30 +90,30 @@ class _FormFieldRegState extends State<FormFieldReg> {
               CustomTextField(
                 controller: passwordController,
                 hintText: 'Contraseña',
-                sizeW: 250,
+                sizeW: utils.screenSize.width * 0.65,
               ),
-              const SizedBox(height: 30),
-              ButtonsStyle(
-                  backgroundColor: const Color(
-                    0xff0FB8C2,
-                  ),
-                  onPressed: () {
-                    setState(() {
+              SizedBox(height: utils.screenSize.height * 0.05),
+              Hero(
+                tag: 1,
+                child: ButtonsStyle(
+                    backgroundColor: const Color(
+                      0xff0FB8C2,
+                    ),
+                    onPressed: () {
                       signUpUser();
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => const MapScreen()));
-                    });
-                  },
-                  sizeH: 45,
-                  sizeW: _utils.screenSize.width * 0.5,
-                  text: 'REGISTRARSE',
-                  textColor: Colors.white),
-              const SizedBox(
-                height: 20,
+                      emailVerification();
+                    },
+                    sizeH: 45,
+                    sizeW: utils.screenSize.width * 0.5,
+                    text: 'REGISTRARSE',
+                    textColor: Colors.white),
+              ),
+              SizedBox(
+                height: utils.screenSize.height * 0.02,
               ),
               const Line(text: "Registrate también con"),
-              const SizedBox(
-                height: 20,
+              SizedBox(
+                height: utils.screenSize.height * 0.02,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -116,8 +122,8 @@ class _FormFieldRegState extends State<FormFieldReg> {
                   const SizedBox(
                     width: 30,
                   ),
-                  const GoogleSinIn1(),
-                  const FacebookSignIn()
+                  Hero(tag: 2, child: GoogleSinIn1()),
+                  Hero(tag: 3, child: FacebookSignIn())
                 ],
               )
             ]),

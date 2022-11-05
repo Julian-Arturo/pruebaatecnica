@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:prueba_tecnica/core/utils/ui_utils.dart';
-import 'package:prueba_tecnica/ui/widget/formLogin.dart';
-import 'package:prueba_tecnica/ui/widget/background.dart';
-import 'package:prueba_tecnica/ui/widget/line_pass.dart';
+import 'package:prueba_tecnica/core/utils/utils.dart';
+import 'package:prueba_tecnica/ui/widget/widgets.dart';
 
 class LoginScreen extends StatelessWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    UiUtils _utils = UiUtils();
+    UiUtils utils = UiUtils();
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -18,14 +18,14 @@ class LoginScreen extends StatelessWidget {
         },
         child: Stack(
           children: [
-            const Background(),
+            const BackgroundF(),
             SingleChildScrollView(
               child: Column(
                 children: [
                   SizedBox(
-                    height: _utils.screenSize.height * 0.2,
+                    height: utils.screenSize.height * 0.2,
                   ),
-                  const Center(child: EmailAndPasswordLogin()),
+                  const Center(child: FormFieldLog()),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -33,7 +33,8 @@ class LoginScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                                padding: const EdgeInsets.only(bottom: 30),
+                                padding:
+                                    const EdgeInsets.only(top: 50, bottom: 60),
                                 child: const RedirectiontoRegister())
                           ]),
                     ],

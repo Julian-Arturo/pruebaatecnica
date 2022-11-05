@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+         <string name="app_name">digitalexp</string>
+        <string name="fb_login_protocol_scheme">fb1956044991266407</string>
+        <string name="facebook_app_id">1956044991266407</string>
+        <string name="facebook_client_token">afd05a967cc885b77989c2ea3ff93774</string>
+</resources>

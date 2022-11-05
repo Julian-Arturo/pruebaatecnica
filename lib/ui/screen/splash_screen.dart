@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:prueba_tecnica/core/utils/ui_utils.dart';
 import 'package:prueba_tecnica/ui/screen/screens.dart';
-import 'package:prueba_tecnica/ui/widget/background.dart';
-import 'package:prueba_tecnica/ui/widget/button.dart';
-import 'package:prueba_tecnica/ui/widget/circle_Avatar.dart';
-import 'package:prueba_tecnica/ui/widget/text.dart';
+import 'package:prueba_tecnica/ui/widget/widgets.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
   Widget build(BuildContext context) {
-    UiUtils _uiUtils = UiUtils();
+    UiUtils uiUtils = UiUtils();
 
     setUiSize(context);
     return Scaffold(
-      body: Stack(children: [
-        const Background(),
+      body: Stack(alignment: AlignmentDirectional.center, children: [
+        const BackgroundF(),
         SingleChildScrollView(
           child: Column(
             children: [
@@ -28,18 +30,26 @@ class SplashScreen extends StatelessWidget {
               ),
               const TextScreen(),
               SizedBox(
-                height: _uiUtils.screenSize.height * 0.1,
+                height: uiUtils.screenSize.height * 0.1,
               ),
-              ButtonsStyle(
-                backgroundColor: const Color(0xff0FB8C2),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => LoginScreen()));
-                },
-                sizeH: 60,
-                sizeW: _uiUtils.screenSize.width * 0.8,
-                text: 'START',
-                textColor: Colors.white,
+              Hero(
+                tag: 1,
+                child: Container(
+                  padding: EdgeInsets.only(bottom: 60),
+                  child: ButtonsStyle(
+                    backgroundColor: const Color(0xff0FB8C2),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const LoginScreen()));
+                    },
+                    sizeH: 60,
+                    sizeW: uiUtils.screenSize.width * 0.8,
+                    text: 'START',
+                    textColor: Colors.white,
+                  ),
+                ),
               ),
             ],
           ),
